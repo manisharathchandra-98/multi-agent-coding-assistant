@@ -1,0 +1,141 @@
+{
+  "planner.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "task": "Write a Python function to check if a string is a palindrome",
+        "reasoning": "To check if a string is a palindrome, we need to compare the characters at the beginning of the string with the characters at the end of the string, working our way inwards. If all the characters match, then the string is a palindrome.",
+        "plan": "1. Define a function called `is_palindrome` that takes a string as an argument.\n2. Initialize two pointers, one at the beginning of the string and one at the end of the string.\n3. Iterate through the string, comparing the characters at the two pointers.\n4. If the characters match, move the pointers inwards and continue the iteration.\n5. If the characters do not match, return `False` to indicate that the string is not a palindrome.\n6. If the iteration completes without finding any mismatched characters, return `True` to indicate that the string is a palindrome."
+      },
+      {
+        "augmented": true,
+        "task": "Write a Python function to flatten a nested list",
+        "reasoning": "Flattening a nested list is a common task in Python. It involves taking a list that may contain other lists as elements, and converting it into a single flat list containing all the elements. This can be useful when working with data structures that have a hierarchical or nested nature, such as trees or nested JSON objects.",
+        "plan": "Here's a step-by-step plan to implement a Python function to flatten a nested list:\n\n1. Define a function called `flatten_list` that takes a single argument `nested_list`.\n2. Initialize an empty list called `flat_list` to store the flattened elements.\n3. Iterate through the `nested_list` using a `for` loop.\n4. For each element in the `nested_list`, check if it is a list using the `isinstance()` function.\n5. If the element is a list, recursively call the `flatten_list()` function on that element and extend the `flat_list` with the flattened results.\n6. If the element is not a list, append it directly to the `flat_list`.\n7. After the loop, return the `flat_list`."
+      }
+    ],
+    "signature": {
+      "instructions": "Plan a Python coding task into clear implementation steps.",
+      "fields": [
+        {
+          "prefix": "Task:",
+          "description": "The coding task to implement"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Plan:",
+          "description": "Step-by-step implementation plan"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "writer.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "task": "Write a Python function to check if a string is a palindrome",
+        "plan": "1. Define a function called `is_palindrome` that takes a string as an argument.\n2. Initialize two pointers, one at the beginning of the string and one at the end of the string.\n3. Iterate through the string, comparing the characters at the two pointers.\n4. If the characters match, move the pointers inwards and continue the iteration.\n5. If the characters do not match, return `False` to indicate that the string is not a palindrome.\n6. If the iteration completes without finding any mismatched characters, return `True` to indicate that the string is a palindrome.",
+        "rag_context": "Use type hints. Add docstring. Handle edge cases.",
+        "reasoning": "To implement a function to check if a string is a palindrome, we can use a two-pointer approach. By starting with pointers at the beginning and end of the string, we can compare the characters at each position and move the pointers inwards until they meet or a mismatch is found.\n\nThis approach is efficient, with a time complexity of O(n), where n is the length of the input string. It also has a space complexity of O(1) since we are only using a constant amount of extra space for the pointers.\n\nTo follow best practices, we will include type hints, a docstring, and handle edge cases such as an empty string or a string with a single character.",
+        "code": "def is_palindrome(s: str) -> bool:\n    \"\"\"\n    Check if a given string is a palindrome.\n\n    Args:\n        s (str): The input string to be checked.\n\n    Returns:\n        bool: True if the input string is a palindrome, False otherwise.\n    \"\"\"\n    if len(s) <= 1:\n        return True\n\n    left = 0\n    right = len(s) - 1\n\n    while left < right:\n        if s[left] != s[right]:\n            return False\n        left += 1\n        right -= 1\n\n    return True"
+      },
+      {
+        "augmented": true,
+        "task": "Write a Python function to flatten a nested list",
+        "plan": "Here's a step-by-step plan to implement a Python function to flatten a nested list:\n\n1. Define a function called `flatten_list` that takes a single argument `nested_list`.\n2. Initialize an empty list called `flat_list` to store the flattened elements.\n3. Iterate through the `nested_list` using a `for` loop.\n4. For each element in the `nested_list`, check if it is a list using the `isinstance()` function.\n5. If the element is a list, recursively call the `flatten_list()` function on that element and extend the `flat_list` with the flattened results.\n6. If the element is not a list, append it directly to the `flat_list`.\n7. After the loop, return the `flat_list`.",
+        "rag_context": "Use recursion. Add type hints with List. Handle empty lists.",
+        "reasoning": "To implement a function to flatten a nested list in Python, I will use a recursive approach. Recursion is a suitable technique for this problem because the function needs to handle nested lists of arbitrary depth.\n\nThe key steps are:\n1. Check if the current element is a list using `isinstance()`.\n2. If it is a list, recursively call the `flatten_list()` function on that element and extend the `flat_list` with the flattened results.\n3. If the element is not a list, append it directly to the `flat_list`.\n4. Handle empty lists by returning an empty list.\n5. Add type hints to specify the expected input and output types.\n6. Include a docstring to describe the function's purpose and parameters.",
+        "code": "from typing import List\n\ndef flatten_list(nested_list: List[any]) -> List[any]:\n    \"\"\"\n    Flattens a nested list into a single list.\n\n    Args:\n        nested_list (List[any]): The nested list to be flattened.\n\n    Returns:\n        List[any]: The flattened list.\n    \"\"\"\n    flat_list = []\n    for element in nested_list:\n        if isinstance(element, list):\n            flat_list.extend(flatten_list(element))\n        else:\n            flat_list.append(element)\n    return flat_list"
+      }
+    ],
+    "signature": {
+      "instructions": "Write clean, production-quality Python code following best practices.",
+      "fields": [
+        {
+          "prefix": "Task:",
+          "description": "The coding task"
+        },
+        {
+          "prefix": "Plan:",
+          "description": "Implementation plan to follow"
+        },
+        {
+          "prefix": "Rag Context:",
+          "description": "Relevant Python best practices from knowledge base"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Code:",
+          "description": "Complete Python code with type hints, docstrings, and error handling"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "reviewer.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "task": "Write a Python function to check if a string is a palindrome",
+        "code": "def is_palindrome(s: str) -> bool:\n    \"\"\"\n    Check if a given string is a palindrome.\n\n    Args:\n        s (str): The input string to be checked.\n\n    Returns:\n        bool: True if the input string is a palindrome, False otherwise.\n    \"\"\"\n    if len(s) <= 1:\n        return True\n\n    left = 0\n    right = len(s) - 1\n\n    while left < right:\n        if s[left] != s[right]:\n            return False\n        left += 1\n        right -= 1\n\n    return True",
+        "reasoning": "The provided code for the `is_palindrome` function is a well-written and efficient implementation to check if a given string is a palindrome. It uses a two-pointer approach, starting from the beginning and end of the string and comparing the characters as it moves inward. This approach has a time complexity of O(n), where n is the length of the input string, which is optimal for this problem.\n\nThe function also handles edge cases properly, such as when the input string is empty or has only one character, which are both considered palindromes.\n\nOverall, the code is clear, well-documented, and follows best practices for function design and implementation.",
+        "score": "10",
+        "feedback": "The code is excellent and no major improvements are needed. The function is well-designed, efficient, and covers all the necessary cases. Keep up the great work!"
+      },
+      {
+        "augmented": true,
+        "task": "Write a Python function to flatten a nested list",
+        "code": "from typing import List\n\ndef flatten_list(nested_list: List[any]) -> List[any]:\n    \"\"\"\n    Flattens a nested list into a single list.\n\n    Args:\n        nested_list (List[any]): The nested list to be flattened.\n\n    Returns:\n        List[any]: The flattened list.\n    \"\"\"\n    flat_list = []\n    for element in nested_list:\n        if isinstance(element, list):\n            flat_list.extend(flatten_list(element))\n        else:\n            flat_list.append(element)\n    return flat_list",
+        "reasoning": "The code provided is a well-written and efficient function to flatten a nested list in Python. It uses a recursive approach to traverse the nested structure and extract all the elements into a single list.\n\nThe function checks if each element in the input list is a list itself. If so, it recursively calls the `flatten_list` function on that element and extends the flat list with the flattened result. If the element is not a list, it simply appends it to the flat list.\n\nThis approach ensures that the function can handle nested lists of any depth and correctly flatten them into a single list.",
+        "score": "9",
+        "feedback": "The function is well-designed and implemented. The use of recursion is appropriate for this problem, and the code is easy to understand and maintain. Here are a few minor suggestions for improvement:\n\n1. Consider adding type hints to the function parameters and return type for better code readability and maintainability.\n2. You could add a docstring example to further clarify the expected input and output of the function.\n3. You might want to consider adding type checking to handle edge cases, such as when the input is not a list or contains non-iterable elements.\n\nOverall, the code is of high quality and effectively solves the problem of flattening a nested list."
+      }
+    ],
+    "signature": {
+      "instructions": "Review Python code quality and provide actionable feedback.",
+      "fields": [
+        {
+          "prefix": "Task:",
+          "description": "The original coding task"
+        },
+        {
+          "prefix": "Code:",
+          "description": "The Python code to review"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Score:",
+          "description": "Quality score from 1-10"
+        },
+        {
+          "prefix": "Feedback:",
+          "description": "Specific, actionable improvement suggestions"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.11",
+      "dspy": "3.1.3",
+      "cloudpickle": "3.1"
+    }
+  }
+}

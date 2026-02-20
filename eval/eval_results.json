@@ -1,0 +1,70 @@
+{
+  "summary": {
+    "difficulty": "easy",
+    "total_tasks": 4,
+    "average_score": 100.0,
+    "tests_passed": 4
+  },
+  "results": [
+    {
+      "task_id": "celsius_to_fahrenheit",
+      "difficulty": "easy",
+      "scores": {
+        "syntax_valid": 1,
+        "has_type_hints": 1,
+        "has_docstring": 1,
+        "has_error_handling": 1,
+        "test_pass_rate": 1.0,
+        "total": 100.0
+      },
+      "iterations": 1,
+      "time": 98.7,
+      "code": "def celsius_to_fahrenheit(celsius: int | float) -> float:\n    \"\"\"Convert a temperature value from Celsius to Fahrenheit.\n\n    Args:\n        celsius: Temperature value in Celsius. Must be a numeric type (int or float).\n\n    Returns:\n        The equivalent temperature in Fahrenheit as a float.\n\n    Raises:\n        TypeError: If the input is not a numeric type (int or float),\n            including booleans, strings, None, lists, or dicts.\n    \"\"\"\n    if isinstance(celsius, bool) or not isinstance(celsius, (int, float)):\n        raise TypeError(\n            f\"celsius_to_fahrenheit requires a numeric value (int or float), \"\n            f\"got {type(celsius).__name__}\"\n        )\n\n    fahrenheit = (celsius * 9 / 5) + 32\n    return float(fahrenheit)"
+    },
+    {
+      "task_id": "is_palindrome",
+      "difficulty": "easy",
+      "scores": {
+        "syntax_valid": 1,
+        "has_type_hints": 1,
+        "has_docstring": 1,
+        "has_error_handling": 1,
+        "test_pass_rate": 1.0,
+        "total": 100.0
+      },
+      "iterations": 1,
+      "time": 90.1,
+      "code": "def is_palindrome(text: str) -> bool:\n    \"\"\"\n    Check if a given string is a palindrome.\n    \n    Compares the string forwards and backwards, ignoring case and spaces.\n    \n    Args:\n        text: The string to check for palindrome property.\n    \n    Returns:\n        True if the text is a palindrome, False otherwise.\n    \n    Raises:\n        TypeError: If input is not a string.\n    \"\"\"\n    if not isinstance(text, str):\n        raise TypeError(\"Input must be a string\")\n    \n    normalized = text.lower().replace(\" \", \"\")\n    return normalized == normalized[::-1]"
+    },
+    {
+      "task_id": "count_words",
+      "difficulty": "easy",
+      "scores": {
+        "syntax_valid": 1,
+        "has_type_hints": 1,
+        "has_docstring": 1,
+        "has_error_handling": 1,
+        "test_pass_rate": 1.0,
+        "total": 100.0
+      },
+      "iterations": 1,
+      "time": 87.1,
+      "code": "def count_words(text: str) -> int:\n    \"\"\"Count the number of words in a string.\n\n    Splits the input string by whitespace and counts the resulting words.\n    Consecutive whitespace, leading whitespace, and trailing whitespace\n    are handled correctly and do not create empty words.\n\n    Args:\n        text: The input string to count words in.\n\n    Returns:\n        The count of words in the input string.\n\n    Raises:\n        TypeError: If text is not of type str.\n    \"\"\"\n    if not isinstance(text, str):\n        raise TypeError(f\"Expected str, got {type(text).__name__}\")\n    \n    return len(text.split())"
+    },
+    {
+      "task_id": "factorial",
+      "difficulty": "easy",
+      "scores": {
+        "syntax_valid": 1,
+        "has_type_hints": 1,
+        "has_docstring": 1,
+        "has_error_handling": 1,
+        "test_pass_rate": 1.0,
+        "total": 100.0
+      },
+      "iterations": 1,
+      "time": 89.3,
+      "code": "def factorial(n: int) -> int:\n    \"\"\"\n    Calculate the factorial of a non-negative integer using recursion.\n\n    Args:\n        n: A non-negative integer whose factorial is to be computed.\n\n    Returns:\n        The factorial of n (n!).\n\n    Raises:\n        TypeError: If n is not an integer or is a boolean.\n        ValueError: If n is a negative integer.\n    \"\"\"\n    if isinstance(n, bool):\n        raise TypeError(\"n must be an integer, not a boolean\")\n    \n    if not isinstance(n, int):\n        raise TypeError(f\"n must be an integer, got {type(n).__name__}\")\n    \n    if n < 0:\n        raise ValueError(\"n must be a non-negative integer\")\n    \n    if n == 0:\n        return 1\n    \n    return n * factorial(n - 1)"
+    }
+  ]
+}
