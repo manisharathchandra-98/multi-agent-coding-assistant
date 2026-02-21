@@ -24,21 +24,21 @@ USER TASK
     │
     ▼
 ┌─────────────────────────────────────────────────┐
-│              LangGraph Pipeline                  │
-│                                                  │
+│              LangGraph Pipeline                 │
+│                                                 │
 │  ┌──────────┐    ┌─────────────┐                │
-│  │ Planner  │───▶│ Code Writer │◀─── Qdrant RAG │
+│  │ Planner  │───▶│ Code Writer │◀─── Qdrant RAG│
 │  │  Agent   │    │    Agent    │    (TF-IDF,    │
 │  └──────────┘    └──────┬──────┘   15 docs)     │
-│                         │                        │
+│                         │                       │
 │                  ┌──────▼──────┐                │
-│                  │  Reviewer   │                 │
-│                  │    Agent    │                 │
+│                  │  Reviewer   │                │
+│                  │    Agent    │                │
 │                  └──────┬──────┘                │
-│                         │                        │
+│                         │                       │
 │                  ┌──────▼──────┐                │
-│                  │ Test Writer │◀─── Docker      │
-│                  │    Agent    │     Sandbox     │
+│                  │ Test Writer │◀─── Docker    │
+│                  │    Agent    │     Sandbox    │
 │                  └──────┬──────┘                │
 └─────────────────────────┼───────────────────────┘
                           │
