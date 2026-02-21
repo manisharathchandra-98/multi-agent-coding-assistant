@@ -78,7 +78,7 @@ USER TASK
 | Code Execution | Docker (sandboxed pytest) |
 | Observability | LangSmith |
 | Prompt Optimization | DSPy (BootstrapFewShot) |
-| Web Search | Tavily API |
+
 
 ---
 
