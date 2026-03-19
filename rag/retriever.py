@@ -1,14 +1,14 @@
 # rag/retriever.py
 import json
 import math
+import os
 import re
 from collections import Counter
 
 from qdrant_client import QdrantClient
 
-QDRANT_PATH = "qdrant_db"
-VOCAB_PATH  = "rag/vocab.json"
-COLLECTION  = "coding_knowledge"
+VOCAB_PATH = "rag/vocab.json"
+COLLECTION = "coding_knowledge"
 
 STOP_WORDS = {
     "the", "a", "an", "in", "on", "at", "to", "for", "of", "and", "or",
@@ -67,7 +67,11 @@ def query_docs(query: str, n_results: int = 3) -> str:
         return "No known terms found in query — try different wording."
 
     try:
-        client  = QdrantClient(path=QDRANT_PATH)
+        # Reads QDRANT_HOST from env — "qdrant" in Docker, "localhost" locally
+        client = QdrantClient(
+            host=os.environ.get("QDRANT_HOST", "localhost"),
+            port=int(os.environ.get("QDRANT_PORT", 6333))
+        )
         results = client.query_points(
             collection_name=COLLECTION,
             query=query_vector,

@@ -8,9 +8,8 @@ from collections import Counter
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 
-QDRANT_PATH = "qdrant_db"
-VOCAB_PATH  = "rag/vocab.json"
-COLLECTION  = "coding_knowledge"
+VOCAB_PATH = "rag/vocab.json"
+COLLECTION = "coding_knowledge"
 
 STOP_WORDS = {
     "the", "a", "an", "in", "on", "at", "to", "for", "of", "and", "or",
@@ -199,13 +198,13 @@ def build_index():
     # ── Step 1: Tokenize all documents ────────────────────────────────────
     all_tokens = [tokenize(d["content"]) for d in DOCUMENTS]
 
-    # ── Step 2: Build vocabulary (every unique word = one dimension) ──────
+    # ── Step 2: Build vocabulary ───────────────────────────────────────────
     vocabulary  = sorted(set(t for tokens in all_tokens for t in tokens))
     vocab_index = {word: i for i, word in enumerate(vocabulary)}
     dimension   = len(vocabulary)
     print(f"Vocabulary size: {dimension} unique terms")
 
-    # ── Step 3: Compute document frequencies (how many docs contain word) ─
+    # ── Step 3: Document frequencies ──────────────────────────────────────
     doc_freq: Counter = Counter()
     for tokens in all_tokens:
         doc_freq.update(set(tokens))
@@ -214,7 +213,6 @@ def build_index():
 
     # ── Step 4: TF-IDF vectorizer ──────────────────────────────────────────
     def vectorize(tokens: list) -> list:
-        """Convert a token list into a fixed-length TF-IDF vector."""
         vector = [0.0] * dimension
         tf     = Counter(tokens)
         total  = len(tokens) or 1
@@ -225,7 +223,7 @@ def build_index():
                 vector[vocab_index[word]] = tf_score * idf_score
         return vector
 
-    # ── Step 5: Save vocabulary for query-time use ─────────────────────────
+    # ── Step 5: Save vocab.json for retriever ─────────────────────────────
     os.makedirs("rag", exist_ok=True)
     with open(VOCAB_PATH, "w", encoding="utf-8") as f:
         json.dump({
@@ -237,10 +235,14 @@ def build_index():
         }, f)
     print(f"Vocabulary saved to {VOCAB_PATH}")
 
-    # ── Step 6: Store vectors in Qdrant ────────────────────────────────────
-    client = QdrantClient(path=QDRANT_PATH)
+    # ── Step 6: Connect to Qdrant container ───────────────────────────────
+    # Reads QDRANT_HOST from env — "qdrant" in Docker, "localhost" locally
+    client = QdrantClient(
+        host=os.environ.get("QDRANT_HOST", "localhost"),
+        port=int(os.environ.get("QDRANT_PORT", 6333))
+    )
 
-    # Delete and recreate the collection fresh
+    # Recreate collection fresh
     try:
         client.delete_collection(COLLECTION)
     except Exception:
@@ -269,7 +271,7 @@ def build_index():
     print(f"\n✅ Indexed {len(points)} documents into Qdrant")
     print(f"   Vector dimension : {dimension}")
     print(f"   Similarity metric: Cosine")
-    print(f"   Persisted to     : {QDRANT_PATH}/")
+    print(f"   Qdrant host      : {os.environ.get('QDRANT_HOST', 'localhost')}:{os.environ.get('QDRANT_PORT', 6333)}")
     print("\nTopics indexed:")
     for t in sorted(set(d["metadata"]["topic"] for d in DOCUMENTS)):
         print(f"   • {t}")

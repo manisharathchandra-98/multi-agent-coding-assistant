@@ -1,0 +1,14 @@
+```
+.env
+.git
+.venv
+venv
+env
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+qdrant_db/
+logs/
+.DS_Store
+Thumbs.db

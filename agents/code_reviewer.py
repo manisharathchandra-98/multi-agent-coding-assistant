@@ -13,7 +13,7 @@ from langsmith import traceable
 
 load_dotenv()
 
-MODEL  = os.getenv("ANTHROPIC_MODEL", "claude-opus-4-5-20251101")
+MODEL  = os.getenv("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
 client = anthropic.Anthropic()
 
 

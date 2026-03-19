@@ -2,7 +2,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # Generates pytest tests for approved code and runs them in Docker sandbox.
 # ─────────────────────────────────────────────────────────────────────────────
-
+import re
 import os
 import anthropic
 from dotenv import load_dotenv
@@ -10,7 +10,7 @@ from agents.mcp_client import call_mcp_tool
 from langsmith import traceable
 load_dotenv()
 
-MODEL  = os.getenv("ANTHROPIC_MODEL", "claude-opus-4-5-20251101")
+MODEL  = os.getenv("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
 client = anthropic.Anthropic()
 
 
@@ -24,6 +24,24 @@ def _strip_code_fences(text: str) -> str:
     if text.endswith("```"):
         text = text[:-3]
     return text.strip()
+
+    lines = text.split('\n')
+    cleaned = []
+    for line in lines:
+        cleaned.append(line)
+    text = '\n'.join(cleaned)
+
+    return text
+    # text = text.strip()
+    # if text.startswith("```python"):
+    #     text = text[9:]
+    # elif text.startswith("```"):
+    #     text = text[3:]
+    # if text.endswith("```"):
+    #     text = text[:-3]
+    # return text.strip()
+    
+    return re.sub(r'^```python\s*|\s*```$', '', text, flags=re.MULTILINE)
 
 @traceable(name="test-writer-agent", tags=["agent"])
 def test_writer_agent(state: dict) -> dict:

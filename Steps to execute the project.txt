@@ -1,0 +1,31 @@
+﻿Steps to execute the project
+1. Install all dependencies (if not done already):
+pip install langgraph langchain-anthropic mcp tavily-python qdrant-client langsmith dspy-ai python-dotenv streamlit
+
+
+2. Build the RAG index (one time only):
+python rag/indexer.py
+
+
+3. Verify LangSmith is connected:
+python langsmith_setup.py
+
+
+4. Run a quick smoke test to confirm the pipeline works:
+python smoke_test.py
+
+
+5. Launch the Streamlit UI:
+streamlit run app.py
+
+
+That's it. After step 5, your browser opens automatically at http://localhost:8501 and the app is ready to use.
+Important before running:
+
+
+*Make sure Docker Desktop is open and running
+*Make sure .env has all your API keys filled in
+
+
+Steps 1 and 2 are one-time only. From the next time onwards, you just need:
+streamlit run app.py
